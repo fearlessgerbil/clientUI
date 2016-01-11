@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
 import {Card, List, ListItem} from 'material-ui';
-import {InventoryItem} from './InventoryItem';
+import InventoryItem from './InventoryItem';
 import moment from 'moment';
 export default class InventoryList extends React.Component {
   constructor(props) {
@@ -38,7 +38,13 @@ export default class InventoryList extends React.Component {
            }}>
             What items would you like to check out?
           </div>
-          {inventoryItems}
+          <div
+            style={{
+              margin: 'auto 5vw auto 5vw'
+            }}
+          >
+            {inventoryItems}
+          </div>
         </List>
       </Card>
     );
