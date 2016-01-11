@@ -38,7 +38,12 @@ export default class App extends React.Component {
           }}
 
         />
-      <InventoryList data={fixtures.items} />
+        <div
+          style={{
+          }}
+        >
+          <InventoryList data={fixtures.items} />
+        </div>
       </div>
     );
   }
