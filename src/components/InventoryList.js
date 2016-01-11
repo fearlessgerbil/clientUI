@@ -10,7 +10,7 @@ export default class InventoryList extends React.Component {
   }
 
   render() {
-    let data = this.props.data
+    let data = this.props.data;
     console.log(data);
     let inventoryItems = _.map(data, (a, i) => (
       <div
@@ -36,7 +36,7 @@ export default class InventoryList extends React.Component {
         fontSize: 20,
         textAlign: 'center'
            }}>
-            Inventory List
+            What items would you like to check out?
           </div>
           {inventoryItems}
         </List>
