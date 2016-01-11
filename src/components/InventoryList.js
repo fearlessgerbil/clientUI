@@ -10,11 +10,10 @@ export default class InventoryList extends React.Component {
   }
 
   render() {
-    let data = _.sortBy(this.props.data, (d) => moment(d.dueDate));
+    let data = this.props.data
     console.log(data);
     let inventoryItems = _.map(data, (a, i) => (
       <div
-        onClick={this.props.selectInventory.bind(null, a)}
         key={i}
       >
         <InventoryItem

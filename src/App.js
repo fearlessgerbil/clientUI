@@ -6,7 +6,9 @@ require('./main.scss');
 import NavigationClose from 'material-ui/lib/svg-icons/navigation/close';
 import ThemeManager from 'material-ui/lib/styles/theme-manager';
 import MyRawTheme from './css/materialThemeCustomizations';
+import InventoryList from './components/InventoryList'
 
+let fixtures = require('./fixtures/userData.js')
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -25,17 +27,18 @@ export default class App extends React.Component {
   }
 
   render() {
+    console.log(fixtures.items)
     return (
       <div>
         <AppBar
-          title={<span> Assignment Manager</span>}
+          title={<span> Checkout Manager</span>}
           iconElementRight={<FlatButton label="Logout" />}
           style={{
           maxHeight: '3vw'
           }}
 
         />
-        {this.props.children}
+      <InventoryList data={fixtures.items} />
       </div>
     );
   }
