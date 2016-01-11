@@ -15,6 +15,7 @@ export default class DateRangePicker extends Component {
   }
   handleSelect(date){
     if (date.startDate === date.endDate) {
+      this.props.handleDates([])
       //do nothing for now as in the middle of picking
     } else {
       var dates = []

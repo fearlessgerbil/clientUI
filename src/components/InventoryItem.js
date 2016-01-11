@@ -19,7 +19,9 @@ export default class InventoryItem extends React.Component {
     })
   }
   setDates(dates) {
-    console.log(dates)
+    this.setState({
+      dates: dates
+    })
   }
 
 
@@ -31,6 +33,18 @@ export default class InventoryItem extends React.Component {
         <DRPicker handleDates={this.setDates.bind(this)} />
       </div>
     ) : '';
+
+    let customizing = dates.length ? (
+      <RaisedButton
+        label="Checkout"
+        secondary={true}
+      />
+    ) : (
+      <RaisedButton
+        label="Select Dates to Rent Item"
+        onClick={this.handleCheckingOutClick.bind(this)}
+      />
+    )
     return (
       <Card
         style={{
@@ -53,10 +67,7 @@ export default class InventoryItem extends React.Component {
 
             </CardText>
             <CardActions>
-              <RaisedButton
-                label="Rent Item"
-                onClick={this.handleCheckingOutClick.bind(this)}
-              />
+              {customizing}
             </CardActions>
             {checkingOut}
             </div>
