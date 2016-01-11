@@ -15,16 +15,13 @@ export default class DateRangePicker extends Component {
   }
   handleSelect(date){
     if (date.startDate === date.endDate) {
-      this.props.handleDates([])
+      this.props.handleDates([]);
       //do nothing for now as in the middle of picking
     } else {
-      var dates = []
+      var dates = [];
       moment.range(date.startDate, date.endDate).by('days', (day) => {
         dates.push(day.toDate());
-      })
-      //console.log(dates);
-      //console.log(moment(dates[0]).calendar())
-      //console.log(moment(dates[dates.length-1]).calendar())
+      });
       this.props.handleDates(dates);
     }
   }
