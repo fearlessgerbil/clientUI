@@ -4,18 +4,35 @@
 
 import React, { Component } from 'react';
 import { DateRange } from 'react-date-range';
-
+import moment from 'moment';
+import 'moment-range';
 export default class DateRangePicker extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      dates: []
+    }
+  }
   handleSelect(date){
-    console.log(date); // Momentjs object
+    if (date.startDate === date.endDate) {
+      //do nothing for now as in the middle of picking
+    } else {
+      var dates = []
+      moment.range(date.startDate, date.endDate).by('days', (day) => {
+        dates.push(day.toDate());
+      })
+      //console.log(dates);
+      //console.log(moment(dates[0]).calendar())
+      //console.log(moment(dates[dates.length-1]).calendar())
+      this.props.handleDates(dates);
+    }
   }
 
   render(){
     return (
       <div>
         <DateRange
-          onInit={this.handleSelect}
-          onChange={this.handleSelect}
+          onChange={this.handleSelect.bind(this)}
           calendars={1}
         />
       </div>

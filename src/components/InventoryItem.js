@@ -6,7 +6,7 @@ import DRPicker from './DateRangePicker';
 export default class InventoryItem extends React.Component {
   constructor(props) {
     super(props);
-    this.state = Object.assign({}, this.props, {showing: false, isCheckingOut: false})
+    this.state = Object.assign({}, this.props, {showing: false, isCheckingOut: false, dates: []})
   }
   handleDetailsClick() {
     this.setState({
@@ -18,13 +18,17 @@ export default class InventoryItem extends React.Component {
       isCheckingOut: !this.state.isCheckingOut
     })
   }
+  setDates(dates) {
+    console.log(dates)
+  }
+
 
   render() {
-    let {item, price, img, desc, showing, isCheckingOut} = this.state;
-
+    let {item, price, img, desc, showing, isCheckingOut, dates} = this.state;
+    console.log("dates selected for inventory item" + dates);
     let checkingOut = isCheckingOut ? (
       <div>
-        <DRPicker />
+        <DRPicker handleDates={this.setDates.bind(this)} />
       </div>
     ) : '';
     return (
