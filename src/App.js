@@ -50,10 +50,7 @@ export default class App extends React.Component {
           }}
 
         />
-        <div
-          style={{
-          }}
-        >
+        <div>
           <InventoryList data={this.state.items} />
         </div>
       </div>

@@ -1,13 +1,14 @@
 import React from 'react';
-import {List, ListItem, Avatar, Card, CardText, RaisedButton, CardActions, DatePicker} from 'material-ui';
+import {List, ListItem, Avatar, Card, CardText, RaisedButton, CardActions, DatePicker, TextField, DropDownMenu} from 'material-ui';
 import moment from 'moment';
 import RangePicker from 'react-daterange-picker';
 import DRPicker from './DateRangePicker';
 import axios from 'axios';
+import NumberItems from './NumberItems';
 export default class InventoryItem extends React.Component {
   constructor(props) {
     super(props);
-    this.state = Object.assign({}, this.props, {showing: false, isCheckingOut: false, dates: []})
+    this.state = Object.assign({}, this.props, {showing: false, isCheckingOut: false, dates: [], name: "", email: "", numItems: 0})
   }
   handleDetailsClick() {
     this.setState({
@@ -27,31 +28,77 @@ export default class InventoryItem extends React.Component {
 
   checkout() {
     axios.post('http://localhost:8088/api/messages', {
-      name: 'Devin',
+      name: this.state.name,
+      email: this.state.email,
       dates: this.state.dates,
       items: [this.state._id],
       businessId: this.state.businessId
     }).then(function(res) {
-      console.log('checked out item')
+      console.log('checked out item');
       console.log(res)
     })
   }
 
+  onBlurOrEnterEmail(event) {
+   this.setState({
+     email: event.target.value
+   })
+  }
+  onBlurOrEnterName(event) {
+    this.setState({
+      name: event.target.value}
+    )
+  }
+
+  onNumItemChange(event) {
+    this.setState({
+      numItems: event.target.value}
+    )
+  }
+
+
   render() {
-    let {item, price, img, desc, showing, isCheckingOut, dates} = this.state;
+    let {item, price, img, desc, showing, isCheckingOut, dates, name, email, numItems} = this.state;
     console.log("dates selected for inventory item" + dates);
     let checkingOut = isCheckingOut ? (
-      <div>
+      <div
+      style={{
+      display: 'flex',
+      flexFlow: 'row'
+      }}
+      >
         <DRPicker handleDates={this.setDates.bind(this)} />
+        <div>
+          <TextField
+            hintText="Enter your name"
+            onBlur={this.onBlurOrEnterName.bind(this)}
+            onEnterKeyDown={this.onBlurOrEnterName.bind(this)}
+          />
+          <TextField
+            hintText="Enter your email"
+            type="email"
+            onBlur={this.onBlurOrEnterEmail.bind(this)}
+            onEnterKeyDown={this.onBlurOrEnterEmail.bind(this)}
+          />
+          <TextField
+            hintText="Enter number you'd like to rent"
+            onBlur={this.onNumItemChange.bind(this)}
+            onChange={this.onNumItemChange.bind(this)}
+          />
+        </div>
       </div>
     ) : '';
 
+    let allowedToCheckout= !(name.length && email.length && dates.length && numItems);
     let customizing = dates.length ? (
-      <RaisedButton
-        label="Checkout"
-        secondary={true}
-        onClick={this.checkout.bind(this)}
-      />
+      <div>
+        <RaisedButton
+          label="Checkout"
+          secondary={true}
+          onClick={this.checkout.bind(this)}
+          disabled={allowedToCheckout}
+        />
+      </div>
     ) : (
       <RaisedButton
         label="Select Dates to Rent Item"
