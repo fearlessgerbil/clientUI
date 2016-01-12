@@ -6,12 +6,15 @@ require('./main.scss');
 import NavigationClose from 'material-ui/lib/svg-icons/navigation/close';
 import ThemeManager from 'material-ui/lib/styles/theme-manager';
 import MyRawTheme from './css/materialThemeCustomizations';
-import InventoryList from './components/InventoryList'
-
-let fixtures = require('./fixtures/userData.js')
+import InventoryList from './components/InventoryList';
+import axios from 'axios';
+let fixtures = require('./fixtures/userData.js');
 export default class App extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      items:  []
+    }
   }
 
 // want to add colors to context to make available to other components
@@ -20,6 +23,16 @@ export default class App extends React.Component {
     muiTheme: React.PropTypes.object
   };
 
+  componentWillMount() {
+    axios.get('http://localhost:8088/api/items/')
+      .then(function(res) {
+        console.log('recieved items');
+        console.log(res)
+        this.setState({
+          items: res.data
+        })
+      }.bind(this))
+  }
   getChildContext() {
     return {
       muiTheme: ThemeManager.getMuiTheme(MyRawTheme)
@@ -27,7 +40,6 @@ export default class App extends React.Component {
   }
 
   render() {
-    console.log(fixtures.items)
     return (
       <div>
         <AppBar
@@ -42,7 +54,7 @@ export default class App extends React.Component {
           style={{
           }}
         >
-          <InventoryList data={fixtures.items} />
+          <InventoryList data={this.state.items} />
         </div>
       </div>
     );

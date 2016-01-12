@@ -3,6 +3,7 @@ import {List, ListItem, Avatar, Card, CardText, RaisedButton, CardActions, DateP
 import moment from 'moment';
 import RangePicker from 'react-daterange-picker';
 import DRPicker from './DateRangePicker';
+import axios from 'axios';
 export default class InventoryItem extends React.Component {
   constructor(props) {
     super(props);
@@ -24,6 +25,17 @@ export default class InventoryItem extends React.Component {
     })
   }
 
+  checkout() {
+    axios.post('http://localhost:8088/api/messages', {
+      name: 'Devin',
+      dates: this.state.dates,
+      items: [this.state._id],
+      businessId: this.state.businessId
+    }).then(function(res) {
+      console.log('checked out item')
+      console.log(res)
+    })
+  }
 
   render() {
     let {item, price, img, desc, showing, isCheckingOut, dates} = this.state;
@@ -38,6 +50,7 @@ export default class InventoryItem extends React.Component {
       <RaisedButton
         label="Checkout"
         secondary={true}
+        onClick={this.checkout.bind(this)}
       />
     ) : (
       <RaisedButton
